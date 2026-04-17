@@ -31,12 +31,13 @@ router.post('/start', async (req: Request, res: Response) => {
       });
     }
 
+    console.log(`[MONITOR] Start requested for symbol=${symbol}, interval=${interval}, checkIntervalSeconds=${checkIntervalSeconds}`);
     await controller.startMonitoring({
       symbol,
       interval,
       checkIntervalSeconds,
     });
-
+    console.log(`[MONITOR] Started monitoring ${symbol}`);
     res.json({
       success: true,
       message: `Started monitoring ${symbol}`,
@@ -71,8 +72,9 @@ router.post('/stop', (req: Request, res: Response) => {
       });
     }
 
+    console.log(`[MONITOR] Stop requested for symbol=${symbol}`);
     controller.stopMonitoring(symbol);
-
+    console.log(`[MONITOR] Stopped monitoring ${symbol}`);
     res.json({
       success: true,
       message: `Stopped monitoring ${symbol}`,

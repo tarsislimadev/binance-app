@@ -13,14 +13,17 @@ export default function PriceMonitor() {
   const handleStart = async () => {
     setLoading(true);
     setError(null);
+    console.log(`[UI] Start monitoring requested for symbol=${symbol}, interval=${interval}`);
     try {
       await apiClient.startMonitoring(symbol, interval);
       setMonitoring(true);
       // Fetch updated status
       const result = await apiClient.getMonitoringStatus(symbol);
       setStatus(result.data);
+      console.log(`[UI] Monitoring started for symbol=${symbol}`);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to start monitoring');
+      console.error('[UI] Failed to start monitoring:', err);
     } finally {
       setLoading(false);
     }
@@ -29,12 +32,15 @@ export default function PriceMonitor() {
   const handleStop = async () => {
     setLoading(true);
     setError(null);
+    console.log(`[UI] Stop monitoring requested for symbol=${symbol}`);
     try {
       await apiClient.stopMonitoring(symbol);
       setMonitoring(false);
       setStatus(null);
+      console.log(`[UI] Monitoring stopped for symbol=${symbol}`);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to stop monitoring');
+      console.error('[UI] Failed to stop monitoring:', err);
     } finally {
       setLoading(false);
     }
@@ -43,11 +49,14 @@ export default function PriceMonitor() {
   const handleRefresh = async () => {
     setLoading(true);
     setError(null);
+    console.log(`[UI] Refresh status requested for symbol=${symbol}`);
     try {
       const result = await apiClient.getMonitoringStatus(symbol);
       setStatus(result.data);
+      console.log(`[UI] Status refreshed for symbol=${symbol}`);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to fetch status');
+      console.error('[UI] Failed to refresh status:', err);
     } finally {
       setLoading(false);
     }
