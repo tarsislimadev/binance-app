@@ -11,7 +11,7 @@ class WebSocketService {
   private connectionCallbacks: ((connected: boolean) => void)[] = [];
 
   constructor(url?: string) {
-    this.url = url || `ws://${window.location.hostname}:${window.location.port || '3000'}`;
+    this.url = url || `ws://${window.location.hostname}:3000`;
   }
 
   connect(): Promise<void> {
