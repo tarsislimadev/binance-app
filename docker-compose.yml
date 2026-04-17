@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: development
+      PORT: 3000
+    volumes:
+      - ./backend/src:/app/src
+      - ./backend/tests:/app/tests
+    command: npm run dev
+    networks:
+      - binance-app
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    ports:
+      - "5173:5173"
+    environment:
+      VITE_API_URL: http://localhost:3000/api
+    volumes:
+      - ./frontend/src:/app/src
+      - ./frontend/index.html:/app/index.html
+    command: npm run dev
+    depends_on:
+      - backend
+    networks:
+      - binance-app
+
+  postgres:
+    image: postgres:15-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: binance_bot
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - binance-app
+
+volumes:
+  postgres-data:
+
+networks:
+  binance-app:
+    driver: bridge

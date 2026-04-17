@@ -1,0 +1,126 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  backend-tests:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: 'backend/package-lock.json'
+      
+      - name: Install dependencies
+        run: npm ci
+        working-directory: backend
+      
+      - name: Build
+        run: npm run build
+        working-directory: backend
+      
+      - name: Run tests
+        run: npm test
+        working-directory: backend
+      
+      - name: Upload coverage
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./backend/coverage/coverage-final.json
+          flags: backend
+          fail_ci_if_error: false
+
+  frontend-tests:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: 'frontend/package-lock.json'
+      
+      - name: Install dependencies
+        run: npm ci
+        working-directory: frontend
+      
+      - name: Build
+        run: npm run build
+        working-directory: frontend
+
+  cli-build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: 'cli/package-lock.json'
+      
+      - name: Install dependencies
+        run: npm ci
+        working-directory: cli
+      
+      - name: Build
+        run: npm run build
+        working-directory: cli
+
+  docker-build:
+    runs-on: ubuntu-latest
+    needs: [backend-tests, frontend-tests, cli-build]
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      
+      - name: Build backend image
+        uses: docker/build-push-action@v4
+        with:
+          context: ./backend
+          push: false
+          tags: binance-bot-backend:latest
+      
+      - name: Build frontend image
+        uses: docker/build-push-action@v4
+        with:
+          context: ./frontend
+          dockerfile: ./frontend/Dockerfile
+          push: false
+          tags: binance-bot-frontend:latest
+
+  lint:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+      
+      - name: Install backend dependencies
+        run: npm ci
+        working-directory: backend
+      
+      - name: Type check backend
+        run: npm run build
+        working-directory: backend
