@@ -1,0 +1,124 @@
+.trade-analysis {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.analysis-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.analysis-results {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.result-card {
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border-left: 4px solid #3b82f6;
+}
+
+.result-card.buy {
+  border-left-color: #10b981;
+}
+
+.result-card.sell {
+  border-left-color: #ef4444;
+}
+
+.result-card h3 {
+  margin: 0 0 16px;
+  color: #1f2937;
+  font-size: 16px;
+}
+
+.metric {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.metric:last-child {
+  border-bottom: none;
+}
+
+.metric label {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.metric value {
+  color: #1f2937;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.metric value.gain {
+  color: #10b981;
+  font-weight: 600;
+}
+
+.signal-card {
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.signal-card h3 {
+  margin: 0 0 16px;
+  color: #1f2937;
+  font-size: 16px;
+}
+
+.signal-type {
+  font-size: 32px;
+  font-weight: 700;
+  margin: 16px 0;
+  padding: 16px;
+  border-radius: 8px;
+  letter-spacing: 2px;
+}
+
+.signal-type[data-type='BUY'] {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.signal-type[data-type='SELL'] {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+.signal-type[data-type='NONE'] {
+  background-color: #f3f4f6;
+  color: #6b7280;
+}
+
+.signal-reason {
+  color: #6b7280;
+  font-size: 14px;
+  margin: 16px 0;
+  line-height: 1.5;
+}
+
+.signal-price {
+  color: #1f2937;
+  font-weight: 500;
+  font-size: 18px;
+  margin-top: 16px;
+}
