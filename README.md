@@ -16,13 +16,13 @@
 
 - [ ] Which Upper's Price?
 
-- [ ] Is Upper's Price 1% more than Lower? Buy!
+- [ ] Is Upper's Price 2% more than Lower? Buy!
 
 - [ ] After Upper's Price, has After's Price?
 
 - [ ] Which After's Price?
 
-- [ ] Is After's Price 1% more than Upper's Price? Sell!
+- [ ] Is After's Price 2% more than Upper's Price? Sell!
 
 - [ ] After After's Price, which Gain?
 
