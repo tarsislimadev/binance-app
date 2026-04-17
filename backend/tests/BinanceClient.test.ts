@@ -1,4 +1,4 @@
-import { BinanceClient } from '../../src/services/BinanceClient';
+import { BinanceClient } from '../src/services/BinanceClient';
 
 describe('BinanceClient', () => {
   let client: BinanceClient;

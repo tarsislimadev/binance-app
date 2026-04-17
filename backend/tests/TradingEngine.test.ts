@@ -1,5 +1,5 @@
-import { TradingEngine } from '../../src/services/TradingEngine';
-import { KlineData } from '../../src/services/BinanceClient';
+import { TradingEngine } from '../src/services/TradingEngine';
+import { KlineData } from '../src/services/BinanceClient';
 
 describe('TradingEngine', () => {
   let engine: TradingEngine;
